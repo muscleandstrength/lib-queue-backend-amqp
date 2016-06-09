@@ -26,13 +26,6 @@ class AmqpLibWriter implements AmqpWriter
      */
     public function __construct(AMQPChannel $AMQPChannel, $exchangeName)
     {
-        $AMQPChannel->exchange_declare(
-            $exchange = $exchangeName,
-            $type = 'direct',
-            $passive = false,
-            $durable = true,
-            $autoDelete = false
-        );
         $this->AMQPChannel = $AMQPChannel;
         $this->exchangeName = $exchangeName;
     }

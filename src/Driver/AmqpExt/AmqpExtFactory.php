@@ -124,7 +124,7 @@ class AmqpExtFactory implements Factory, AmqpDriverFactory
     {
         $AMQPConnection = new \AMQPConnection([
             'host'     => $this->getAmqpHostConfig(),
-            'port'     => $this->getAmqpHostPortConfig(),
+            'port'     => $this->getAmqpPortConfig(),
             'login'    => $this->getAmqpUsernameConfig(),
             'password' => $this->getAmqpPasswordConfig(),
             'vhost'    => $this->getAmqpVhostConfig(),
@@ -151,7 +151,7 @@ class AmqpExtFactory implements Factory, AmqpDriverFactory
     /**
      * @return string
      */
-    private function getAmqpHostPortConfig()
+    private function getAmqpPortConfig()
     {
         return $this->getMasterFactory()->createAmqpConfig()->getAmqpPort();
     }

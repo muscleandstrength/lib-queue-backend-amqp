@@ -19,6 +19,9 @@ abstract class AmqpDriverTestIntegration extends \PHPUnit_Framework_TestCase
      */
     abstract protected function closeConnection(MasterFactory $masterFactory);
 
+    /**
+     * @return AmqpDriverFactory|MasterFactory
+     */
     protected static function createMasterFactoryWithAmqpDriver()
     {
         throw new \LogicException(sprintf('Override %s in concrete implementation', __FUNCTION__));

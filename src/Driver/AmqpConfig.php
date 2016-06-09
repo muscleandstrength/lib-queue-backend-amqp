@@ -31,15 +31,15 @@ class AmqpConfig implements \LizardsAndPumpkins\Messaging\Queue\Amqp\AmqpConfig
      */
     public function getAmqpHost()
     {
-        return $this->getHostWithoutPort($this->configReader->get(self::$hostConfigKey));
+        return $this->getHostWithoutPort();
     }
 
     /**
-     * @param string $host
      * @return string
      */
-    private function getHostWithoutPort($host)
+    private function getHostWithoutPort()
     {
+        $host = $this->configReader->get(self::$hostConfigKey);
         return false !== ($pos = strpos($host, ':')) ?
             substr($host, 0, $pos) :
             $host;
@@ -50,15 +50,15 @@ class AmqpConfig implements \LizardsAndPumpkins\Messaging\Queue\Amqp\AmqpConfig
      */
     public function getAmqpPort()
     {
-        return $this->getPort($this->configReader->get(self::$hostConfigKey));
+        return $this->getPort();
     }
 
     /**
-     * @param string $host
      * @return string
      */
-    private function getPort($host)
+    private function getPort()
     {
+        $host = $this->configReader->get(self::$hostConfigKey);
         return false !== ($pos = strpos($host, ':')) ?
             substr($host, $pos + 1) :
             self::$defaultPort;

@@ -84,7 +84,7 @@ class AmqpLibFactory implements Factory, AmqpDriverFactory
         if (!isset($this->connection)) {
             $this->connection = new AMQPStreamConnection(
                 $this->getAmqpHostConfig(),
-                $this->getAmqpHostPortConfig(),
+                $this->getAmqpPortConfig(),
                 $this->getAmqpUsernameConfig(),
                 $this->getAmqpPasswordConfig(),
                 $this->getAmqpVhostConfig()
@@ -112,7 +112,7 @@ class AmqpLibFactory implements Factory, AmqpDriverFactory
     /**
      * @return string
      */
-    private function getAmqpHostPortConfig()
+    private function getAmqpPortConfig()
     {
         return $this->getMasterFactory()->createAmqpConfig()->getAmqpPort();
     }

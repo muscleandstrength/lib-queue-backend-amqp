@@ -1,4 +1,5 @@
 <?php
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp;
 
 interface AmqpConfig

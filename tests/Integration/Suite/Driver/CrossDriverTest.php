@@ -1,0 +1,143 @@
+<?php
+
+namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver;
+
+use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt\AmqpExtFactory;
+use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt\AmqpExtReader;
+use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib\AmqpLibFactory;
+use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib\AmqpLibReader;
+use LizardsAndPumpkins\Messaging\Queue\Amqp\IntegrationTestFactory;
+use LizardsAndPumpkins\Messaging\Queue\Amqp\IntegrationTestMasterFactory;
+
+class CrossDriverTest extends \PHPUnit_Framework_TestCase
+{
+    private $exchangeName = 'test';
+
+    /**
+     * @param AmqpDriverFactory $driverFactory
+     * @return IntegrationTestMasterFactory|AmqpDriverFactory
+     */
+    private function createMasterFactoryWithGivenDriver(AmqpDriverFactory $driverFactory)
+    {
+        $masterFactory = new IntegrationTestMasterFactory();
+        $masterFactory->register($driverFactory);
+        $masterFactory->register(new IntegrationTestFactory());
+        return $masterFactory;
+    }
+
+    /**
+     * @return AmqpDriverFactory
+     */
+    private function createAmqpLibMasterFactory()
+    {
+        return $this->createMasterFactoryWithGivenDriver(new AmqpLibFactory());
+    }
+
+    /**
+     * @return AmqpDriverFactory
+     */
+    private function createAmqpExtMasterFactory()
+    {
+        return $this->createMasterFactoryWithGivenDriver(new AmqpExtFactory());
+    }
+
+    /**
+     * @param string $expected
+     * @param AmqpReader $reader
+     */
+    private function assertNextMessageSame($expected, AmqpReader $reader)
+    {
+        $reader->consume(function ($message) use ($expected) {
+            $this->assertSame($expected, $message);
+            return AmqpReader::CONSUMER_CANCEL;
+        });
+    }
+
+    /**
+     * @param AmqpReader $reader
+     * @param int $numberOfMessagesToRead
+     * @return string[]
+     */
+    private function readNumberOfMessages(AmqpReader $reader, $numberOfMessagesToRead)
+    {
+        $receivedMessages = [];
+        $reader->consume(function ($message) use (&$receivedMessages, $numberOfMessagesToRead) {
+            $receivedMessages[] = $message;
+            return count($receivedMessages) === $numberOfMessagesToRead ?
+                AmqpReader::CONSUMER_CANCEL :
+                AmqpReader::CONSUMER_CONTINUE;
+        });
+        return $receivedMessages;
+    }
+
+    private function writeWithOneReadWithTwo(AmqpWriter $writer, AmqpReader $reader1, AmqpReader $reader2)
+    {
+        $messagesToAdd = ['foo', 'bar', 'baz', 'qux'];
+        array_map(function ($messageToAdd) use ($writer) {
+            $writer->addMessage($messageToAdd);
+        }, $messagesToAdd);
+
+        $readMessages = array_merge(
+            $this->readNumberOfMessages($reader1, 2),
+            $this->readNumberOfMessages($reader2, 2)
+        );
+
+        array_map(function ($messageToAssert) use ($readMessages) {
+            $this->assertContains($messageToAssert, $readMessages);
+        }, $messagesToAdd);
+    }
+
+    protected function setUp()
+    {
+        $amqpExtFactory = $this->createAmqpExtMasterFactory();
+        $amqpExtFactory->createAmqpReader($this->exchangeName)->purgeQueue();
+    }
+
+    public function testWriteWithLibReadWithExt()
+    {
+        $amqpLibFactory = $this->createAmqpLibMasterFactory();
+        $amqpExtFactory = $this->createAmqpExtMasterFactory();
+
+        $libWriter = $amqpLibFactory->createAmqpWriter($this->exchangeName);
+        $extReader = $amqpExtFactory->createAmqpReader($this->exchangeName);
+
+        $libWriter->addMessage('foo');
+        $this->assertNextMessageSame('foo', $extReader);
+    }
+
+    public function testWriteWithExrReadWithLib()
+    {
+        $amqpLibFactory = $this->createAmqpLibMasterFactory();
+        $amqpExtFactory = $this->createAmqpExtMasterFactory();
+
+        $extWriter = $amqpExtFactory->createAmqpWriter($this->exchangeName);
+        $libReader = $amqpLibFactory->createAmqpReader($this->exchangeName);
+
+        $extWriter->addMessage('bar');
+        $this->assertNextMessageSame('bar', $libReader);
+    }
+
+    public function testWriteWithAmqlLibReadWithBoth()
+    {
+        $amqpLibFactory = $this->createAmqpLibMasterFactory();
+        $amqpExtFactory = $this->createAmqpExtMasterFactory();
+
+        $this->writeWithOneReadWithTwo(
+            $amqpLibFactory->createAmqpWriter($this->exchangeName),
+            $amqpLibFactory->createAmqpReader($this->exchangeName),
+            $amqpExtFactory->createAmqpReader($this->exchangeName)
+        );
+    }
+
+    public function testWriteWithAmqlExtReadWithBoth()
+    {
+        $amqpLibFactory = $this->createAmqpLibMasterFactory();
+        $amqpExtFactory = $this->createAmqpExtMasterFactory();
+
+        $this->writeWithOneReadWithTwo(
+            $amqpExtFactory->createAmqpWriter($this->exchangeName),
+            $amqpLibFactory->createAmqpReader($this->exchangeName),
+            $amqpExtFactory->createAmqpReader($this->exchangeName)
+        );
+    }
+}

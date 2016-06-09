@@ -34,7 +34,7 @@ class AmqpLibFactory implements Factory, AmqpDriverFactory
         $AMQPChannel = $this->createAMQPChannelWithExchange($exchangeName);
         $amqpLibQueueDeclaration = $this->createAmqpLibQueueDeclaration($AMQPChannel);
         $queueName = $exchangeName . '-queue';
-        $amqpLibQueueDeclaration->declare($queueName);
+        $amqpLibQueueDeclaration->declareQueue($queueName);
         $AMQPChannel->queue_bind($queueName, $exchangeName);
         return new AmqpLibReader($AMQPChannel, $queueName, $amqpLibQueueDeclaration);
     }
@@ -79,7 +79,7 @@ class AmqpLibFactory implements Factory, AmqpDriverFactory
     /**
      * @return AbstractConnection|AMQPStreamConnection
      */
-    private function getAMQPConnection()
+    public function getAMQPConnection()
     {
         if (!isset($this->connection)) {
             $this->connection = new AMQPStreamConnection(
@@ -133,6 +133,9 @@ class AmqpLibFactory implements Factory, AmqpDriverFactory
         return $this->getMasterFactory()->createAmqpConfig()->getAmqpPassword();
     }
 
+    /**
+     * @return string
+     */
     private function getAmqpVhostConfig()
     {
         return $this->getMasterFactory()->createAmqpConfig()->getAmqpVhost();

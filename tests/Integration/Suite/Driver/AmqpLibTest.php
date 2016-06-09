@@ -3,6 +3,7 @@
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib\AmqpLibFactory;
+use LizardsAndPumpkins\Util\Factory\MasterFactory;
 
 class AmqpLibTest extends AmqpDriverTestIntegration
 {
@@ -20,5 +21,11 @@ class AmqpLibTest extends AmqpDriverTestIntegration
     final protected static function getQueueName()
     {
         return 'test-amqp-lib';
+    }
+
+    final protected function closeConnection(MasterFactory $factory)
+    {
+        /** @var AmqpLibFactory $factory */
+        $factory->getAMQPConnection()->close();
     }
 }

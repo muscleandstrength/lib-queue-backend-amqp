@@ -45,12 +45,9 @@ class AmqpLibReader implements AmqpReader
      */
     public function countMessages()
     {
-        return $this->amqpLibQueueDeclaration->declare($this->queueName);
+        return $this->amqpLibQueueDeclaration->declareQueue($this->queueName);
     }
 
-    /**
-     * @param callable $callback
-     */
     public function consume(callable $callback)
     {
         $this->consumerTag = $this->AMQPChannel->basic_consume(
@@ -62,7 +59,7 @@ class AmqpLibReader implements AmqpReader
             $noWait = false,
             function (AMQPMessage $message) use ($noAck, $callback) {
                 $result = $callback($message->body);
-                if ($result === AmqpReader::CANCEL_CONSUME) {
+                if ($result === AmqpReader::CONSUMER_CANCEL) {
                     $this->cancel();
                 }
                 if ($noAck === false) {
@@ -72,8 +69,7 @@ class AmqpLibReader implements AmqpReader
         );
         do {
             $this->AMQPChannel->wait();
-        }
-        while (count($this->AMQPChannel->callbacks));
+        } while (count($this->AMQPChannel->callbacks));
     }
 
     public function cancel()

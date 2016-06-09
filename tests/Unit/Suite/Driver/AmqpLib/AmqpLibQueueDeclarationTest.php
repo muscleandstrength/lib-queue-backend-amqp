@@ -16,6 +16,6 @@ class AmqpLibQueueDeclarationTest extends \PHPUnit_Framework_TestCase
         $mockChannel->expects($this->once())->method('queue_declare')->willReturn([0, 123, false]);
         
         $queueDeclaration = new AmqpLibQueueDeclaration($mockChannel);
-        $this->assertSame(123, $queueDeclaration->declare('foo'));
+        $this->assertSame(123, $queueDeclaration->declareQueue('foo'));
     }
 }

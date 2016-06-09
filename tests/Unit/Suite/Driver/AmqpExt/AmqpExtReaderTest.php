@@ -68,7 +68,7 @@ class AmqpExtReaderTest extends \PHPUnit_Framework_TestCase
             });
 
         $this->reader->consume(function () {
-            return AmqpReader::CANCEL_CONSUME;
+            return AmqpReader::CONSUMER_CANCEL;
         });
     }
 
@@ -85,7 +85,7 @@ class AmqpExtReaderTest extends \PHPUnit_Framework_TestCase
             });
 
         $this->reader->consume(function () {
-            return AmqpReader::CONTINUE_CONSUME;
+            return AmqpReader::CONSUMER_CONTINUE;
         });
     }
 

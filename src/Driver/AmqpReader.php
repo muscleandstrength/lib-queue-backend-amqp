@@ -6,8 +6,8 @@ use LizardsAndPumpkins\Messaging\Queue;
 
 interface AmqpReader
 {
-    const CONTINUE_CONSUME = null;
-    const CANCEL_CONSUME = false;
+    const CONSUMER_CONTINUE = null;
+    const CONSUMER_CANCEL = false;
     
     /**
      * @return int

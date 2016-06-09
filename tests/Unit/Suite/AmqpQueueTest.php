@@ -73,7 +73,7 @@ class AmqpQueueTest extends \PHPUnit_Framework_TestCase
     public function testReturnsCancelConsumeFlagAfterGivenNumberOfMessages()
     {
         $this->mockAmqpReader->method('consume')->willReturnCallback(function (callable $callback) {
-            $this->assertSame(AmqpReader::CANCEL_CONSUME, $callback($this->testMessage->serialize()));
+            $this->assertSame(AmqpReader::CONSUMER_CANCEL, $callback($this->testMessage->serialize()));
         });
         /** @var MessageReceiver|\PHPUnit_Framework_MockObject_MockObject $stubReceiver */
         $stubReceiver = $this->createMock(MessageReceiver::class);
@@ -84,7 +84,7 @@ class AmqpQueueTest extends \PHPUnit_Framework_TestCase
     public function testDoesNotReturnsCancelConsumeFlagBeforeGivenNumberOfMessages()
     {
         $this->mockAmqpReader->method('consume')->willReturnCallback(function (callable $callback) {
-            $this->assertNotSame(AmqpReader::CANCEL_CONSUME, $callback($this->testMessage->serialize()));
+            $this->assertNotSame(AmqpReader::CONSUMER_CANCEL, $callback($this->testMessage->serialize()));
         });
         
         /** @var MessageReceiver|\PHPUnit_Framework_MockObject_MockObject $stubReceiver */
@@ -100,4 +100,3 @@ class AmqpQueueTest extends \PHPUnit_Framework_TestCase
         $this->queue->clear();
     }
 }
-

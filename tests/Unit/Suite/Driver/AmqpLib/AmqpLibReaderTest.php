@@ -42,7 +42,7 @@ class AmqpLibReaderTest extends \PHPUnit_Framework_TestCase
 
     public function testReturnsCountOfMessagesInQueue()
     {
-        $this->stubQueueDeclaration->method('declare')->willReturn(222);
+        $this->stubQueueDeclaration->method('declareQueue')->willReturn(222);
         $this->assertSame(222, $this->reader->countMessages());
     }
 
@@ -52,13 +52,19 @@ class AmqpLibReaderTest extends \PHPUnit_Framework_TestCase
         $stubAMQPMessage = $this->createMock(AMQPMessage::class);
         $stubAMQPMessage->body = 'foo';
         $stubAMQPMessage->delivery_info = [
-            'channel' => $this->mockChannel,
+            'channel'      => $this->mockChannel,
             'delivery_tag' => 333,
         ];
 
-        $callback = function ($queue, $consumer_tag, $no_local, $no_ack, $exclusive, $nowait, $callback) use (
-            $stubAMQPMessage
-        ) {
+        $callback = function (
+            $queue,
+            $consumerTag,
+            $noLocal,
+            $noAck,
+            $exclusive,
+            $nowait,
+            $callback
+        ) use ($stubAMQPMessage) {
             $callback($stubAMQPMessage);
         };
         $this->mockChannel->expects($this->once())->method('basic_consume')->willReturnCallback($callback);
@@ -78,20 +84,26 @@ class AmqpLibReaderTest extends \PHPUnit_Framework_TestCase
         $stubAMQPMessage = $this->createMock(AMQPMessage::class);
         $stubAMQPMessage->body = 'foo';
         $stubAMQPMessage->delivery_info = [
-            'channel' => $this->mockChannel,
+            'channel'      => $this->mockChannel,
             'delivery_tag' => 333,
         ];
 
-        $callback = function ($queue, $consumer_tag, $no_local, $no_ack, $exclusive, $nowait, $callback) use (
-            $stubAMQPMessage
-        ) {
+        $callback = function (
+            $queue,
+            $consumerTag,
+            $noLocal,
+            $noAck,
+            $exclusive,
+            $nowait,
+            $callback
+        ) use ($stubAMQPMessage) {
             $callback($stubAMQPMessage);
         };
         $this->mockChannel->method('basic_consume')->willReturnCallback($callback);
         $this->mockChannel->expects($this->once())->method('basic_cancel');
 
         $this->reader->consume(function () {
-            return AmqpReader::CANCEL_CONSUME;
+            return AmqpReader::CONSUMER_CANCEL;
         });
     }
 
@@ -101,20 +113,26 @@ class AmqpLibReaderTest extends \PHPUnit_Framework_TestCase
         $stubAMQPMessage = $this->createMock(AMQPMessage::class);
         $stubAMQPMessage->body = 'foo';
         $stubAMQPMessage->delivery_info = [
-            'channel' => $this->mockChannel,
+            'channel'      => $this->mockChannel,
             'delivery_tag' => 333,
         ];
 
-        $callback = function ($queue, $consumer_tag, $no_local, $no_ack, $exclusive, $nowait, $callback) use (
-            $stubAMQPMessage
-        ) {
+        $callback = function (
+            $queue,
+            $consumerTag,
+            $noLocal,
+            $noAck,
+            $exclusive,
+            $nowait,
+            $callback
+        ) use ($stubAMQPMessage) {
             $callback($stubAMQPMessage);
         };
         $this->mockChannel->method('basic_consume')->willReturnCallback($callback);
         $this->mockChannel->expects($this->never())->method('basic_cancel');
 
         $this->reader->consume(function () {
-            return AmqpReader::CONTINUE_CONSUME;
+            return AmqpReader::CONSUMER_CONTINUE;
         });
     }
 
@@ -126,7 +144,7 @@ class AmqpLibReaderTest extends \PHPUnit_Framework_TestCase
 
     public function testDelegatesPurgingTheQueueToChannel()
     {
-        $this->mockChannel->expects($this->once())->method('queue_purge')->with($this->testQueueName );
+        $this->mockChannel->expects($this->once())->method('queue_purge')->with($this->testQueueName);
         $this->reader->purgeQueue();
     }
 

@@ -4,8 +4,6 @@ namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt;
 
 use LizardsAndPumpkins\Util\Factory\Factory;
 
-require_once __DIR__ . '/AMQPUnitTestMasterFactory.php';
-
 /**
  * @covers \LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt\AmqpExtFactory
  * @uses   \LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt\AmpqExtQueueFactory
@@ -25,6 +23,7 @@ class AmqpExtFactoryTest extends \PHPUnit_Framework_TestCase
         if (!extension_loaded("amqp")) {
             $this->markTestSkipped('PHP extension amqp not found');
         }
+        require_once __DIR__ . '/AMQPUnitTestMasterFactory.php';
         $this->factory = new AmqpExtFactory();
         (new AMQPUnitTestMasterFactory($this))->register($this->factory);
     }

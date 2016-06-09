@@ -24,9 +24,6 @@ class AmqpExtReader implements AmqpReader
         return $this->AMQPQueue->declareQueue();
     }
 
-    /**
-     * @param callable $callback
-     */
     public function consume(callable $callback)
     {
         $flags = \AMQP_NOPARAM; // | \AMQP_AUTOACK;
@@ -35,7 +32,7 @@ class AmqpExtReader implements AmqpReader
             if (! ($flags & \AMQP_AUTOACK)) {
                 $this->AMQPQueue->ack($envelope->getDeliveryTag());
             }
-            return $callbackResult === AmqpReader::CANCEL_CONSUME ?
+            return $callbackResult === AmqpReader::CONSUMER_CANCEL ?
                 false :
                 null;
         }, $flags);

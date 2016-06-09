@@ -20,7 +20,7 @@ class AmqpLibQueueDeclaration
      * @param string $queueName
      * @return int
      */
-    public function declare($queueName)
+    public function declareQueue($queueName)
     {
         $messageCount = $this->AMQPChannel->queue_declare(
             $queueName,

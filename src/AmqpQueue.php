@@ -40,9 +40,6 @@ class AmqpQueue implements Queue, Clearable
         return $this->amqpReader->countMessages();
     }
 
-    /**
-     * @param Message $message
-     */
     public function add(Message $message)
     {
         $this->amqpWriter->addMessage($message->serialize());
@@ -58,8 +55,8 @@ class AmqpQueue implements Queue, Clearable
         $this->amqpReader->consume(function ($rawMessage) use ($messageReceiver) {
             $messageReceiver->receive(Message::rehydrate($rawMessage));
             return 0 < --$this->remainingNumberOfMessagesToConsume ?
-                AmqpReader::CONTINUE_CONSUME :
-                AmqpReader::CANCEL_CONSUME;
+                AmqpReader::CONSUMER_CONTINUE :
+                AmqpReader::CONSUMER_CANCEL;
         });
     }
 

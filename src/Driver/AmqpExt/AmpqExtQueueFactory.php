@@ -14,6 +14,9 @@ class AmpqExtQueueFactory
         $this->AMQPChannel = $channel;
     }
 
+    /**
+     * @return \AMQPQueue
+     */
     public function create()
     {
         $AMQPQueue = new \AMQPQueue($this->AMQPChannel);

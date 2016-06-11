@@ -3,9 +3,7 @@
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt\AmqpExtFactory;
-use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt\AmqpExtReader;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib\AmqpLibFactory;
-use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib\AmqpLibReader;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\IntegrationTestFactory;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\IntegrationTestMasterFactory;
 
@@ -89,8 +87,22 @@ class CrossDriverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $amqpExtFactory = $this->createAmqpExtMasterFactory();
-        $amqpExtFactory->createAmqpReader($this->exchangeName)->purgeQueue();
+        try {
+            $amqpExtFactory = $this->createAmqpExtMasterFactory();
+            $amqpExtFactory->createAmqpReader($this->exchangeName)->purgeQueue();
+        } catch (\Exception $exception) {
+            $this->markTestSkipped(sprintf(
+                "Unable to connect to RabbitMQ: %s",
+                $exception->getMessage()
+            ));
+        }
+    }
+    
+    protected function tearDown()
+    {
+        $factory = $this->createAmqpLibMasterFactory();
+        $reader = $factory->createAmqpReader($this->exchangeName);
+        $reader->deleteQueue();
     }
 
     public function testWriteWithLibReadWithExt()

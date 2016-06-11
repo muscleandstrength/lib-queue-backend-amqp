@@ -2,7 +2,6 @@
 
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib;
 
-use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpConfig;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpDriverFactory;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpReader;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpWriter;
@@ -91,14 +90,6 @@ class AmqpLibFactory implements Factory, AmqpDriverFactory
             );
         }
         return $this->connection;
-    }
-
-    /**
-     * @return AmqpConfig
-     */
-    public function createAmqpConfig()
-    {
-        return new AmqpConfig($this->getMasterFactory()->createConfigReader());
     }
 
     /**

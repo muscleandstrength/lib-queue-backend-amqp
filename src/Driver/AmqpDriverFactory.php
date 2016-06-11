@@ -17,9 +17,4 @@ interface AmqpDriverFactory extends Factory
      * @return AmqpWriter
      */
     public function createAmqpWriter($exchangeName);
-
-    /**
-     * @return AmqpConfig
-     */
-    public function createAmqpConfig();
 }

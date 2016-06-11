@@ -28,4 +28,14 @@ interface AmqpConfig
      * @return string
      */
     public function getAmqpVhost();
+
+    /**
+     * @return string
+     */
+    public function getCommandQueueName();
+
+    /**
+     * @return string
+     */
+    public function getDomainEventQueueName();
 }

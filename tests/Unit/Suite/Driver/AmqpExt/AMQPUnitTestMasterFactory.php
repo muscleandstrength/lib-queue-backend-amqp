@@ -2,7 +2,7 @@
 
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt;
 
-use LizardsAndPumpkins\Util\Config\ConfigReader;
+use LizardsAndPumpkins\Messaging\Queue\Amqp\AmqpConfig;
 use LizardsAndPumpkins\Util\Factory\MasterFactory;
 use LizardsAndPumpkins\Util\Factory\MasterFactoryTrait;
 
@@ -33,19 +33,19 @@ class AMQPUnitTestMasterFactory implements MasterFactory
     }
 
     /**
-     * @return ConfigReader|
-     */
-    public function createConfigReader()
-    {
-        return $this->createMock(ConfigReader::class);
-    }
-
-    /**
      * @return \AMQPConnection
      */
     public function createAMQPConnection()
     {
         $credentials = [];
         return new \AMQPConnection($credentials);
+    }
+
+    /**
+     * @return AmqpConfig
+     */
+    public function createAmqpConfig()
+    {
+        return $this->createMock(AmqpConfig::class);
     }
 }

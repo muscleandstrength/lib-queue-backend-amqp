@@ -87,4 +87,20 @@ class AmqpConfig implements \LizardsAndPumpkins\Messaging\Queue\Amqp\AmqpConfig
     {
         return $this->configReader->get(self::$vhostConfigKey);
     }
+
+    /**
+     * @return string
+     */
+    public function getCommandQueueName()
+    {
+        return 'command';
+    }
+
+    /**
+     * @return string
+     */
+    public function getDomainEventQueueName()
+    {
+        return 'event';
+    }
 }

@@ -14,6 +14,11 @@ abstract class AmqpDriverTestIntegration extends \PHPUnit_Framework_TestCase
     private $masterFactory;
 
     /**
+     * @var bool
+     */
+    private static $skipTearDownAfterClass = false;
+
+    /**
      * @param MasterFactory $masterFactory
      * @return void
      */
@@ -71,10 +76,10 @@ abstract class AmqpDriverTestIntegration extends \PHPUnit_Framework_TestCase
             $reader = $this->masterFactory->createAmqpReader(static::getQueueName());
             $reader->purgeQueue();
         } catch (\Exception $exception) {
+            self::$skipTearDownAfterClass = true;
             $this->markTestSkipped(sprintf(
-                "Unable to connect to RabbitMQ: %s\n%s",
-                $exception->getMessage(),
-                $exception->getTraceAsString()
+                "Unable to connect to RabbitMQ: %s",
+                $exception->getMessage()
             ));
         }
     }
@@ -87,8 +92,10 @@ abstract class AmqpDriverTestIntegration extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        $reader = static::createMasterFactoryWithAmqpDriver()->createAmqpReader(static::getQueueName());
-        $reader->deleteQueue();
+        if (! self::$skipTearDownAfterClass) {
+            $reader = static::createMasterFactoryWithAmqpDriver()->createAmqpReader(static::getQueueName());
+            $reader->deleteQueue();
+        }
     }
 
     public function testCanCountMessagesInQueue()
@@ -98,23 +105,23 @@ abstract class AmqpDriverTestIntegration extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(0, $reader->countMessages(), 'Failed asserting fresh queue starts empty');
         $writer->addMessage('foo');
-        usleep(10000);
+        usleep(5000);
         $this->assertEquals(1, $reader->countMessages(), 'Failed asserting adding 1 message brings count to 1');
 
         $writer->addMessage('bar');
-        usleep(10000);
+        usleep(5000);
         $this->assertEquals(2, $reader->countMessages(), 'Failed asserting adding 2 messages brings count to 2');
 
         $reader->consume(function () {
             return AmqpReader::CONSUMER_CANCEL;
         });
-        usleep(10000);
+        usleep(5000);
         $this->assertEquals(1, $reader->countMessages(), 'Failed asserting consuming 1 of 2 brings count to 1');
 
         $reader->consume(function () {
             return AmqpReader::CONSUMER_CANCEL;
         });
-        usleep(10000);
+        usleep(5000);
         $this->assertEquals(0, $reader->countMessages(), 'Failed asserting consuming 1 of 1 brings count to 0');
     }
 

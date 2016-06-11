@@ -1,5 +1,5 @@
 {
-    "name": "lizards-and-pumpkins/lib-queue-amqp",
+    "name": "lizards-and-pumpkins/lib-queue-backend-amqp",
     "description": "Lizards & Pumpkins AMQP Queue",
     "license": "BSD-3-Clause",
     "authors": [

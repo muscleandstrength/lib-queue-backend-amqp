@@ -12,14 +12,10 @@ use LizardsAndPumpkins\Util\Factory\MasterFactory;
 use LizardsAndPumpkins\Util\Factory\RegistersDelegateFactory;
 
 /**
- * @method MasterFactory|AmqpDriverFactory getMasterFactory()
+ * @method MasterFactory|AmqpDriverFactory|AmqpFactory getMasterFactory()
  */
 class AmqpFactory implements Factory, MessageQueueFactory, RegistersDelegateFactory
 {
-    private $domainEventQueueName = 'event';
-
-    private $commandQueueName = 'command';
-
     use FactoryTrait;
 
     public function registerDelegateFactories(MasterFactory $masterFactory)
@@ -52,7 +48,7 @@ class AmqpFactory implements Factory, MessageQueueFactory, RegistersDelegateFact
      */
     public function createEventMessageQueue()
     {
-        return $this->createAmqpQueue($this->domainEventQueueName);
+        return $this->createAmqpQueue($this->getDomainEventQueueNameConfig());
     }
 
     /**
@@ -60,6 +56,30 @@ class AmqpFactory implements Factory, MessageQueueFactory, RegistersDelegateFact
      */
     public function createCommandMessageQueue()
     {
-        return $this->createAmqpQueue($this->commandQueueName);
+        return $this->createAmqpQueue($this->getCommandQueueNameConfig());
+    }
+
+    /**
+     * @return AmqpConfig
+     */
+    public function createAmqpConfig()
+    {
+        return new Driver\AmqpConfig($this->getMasterFactory()->createConfigReader());
+    }
+
+    /**
+     * @return string
+     */
+    private function getDomainEventQueueNameConfig()
+    {
+        return $this->getMasterFactory()->createAmqpConfig()->getDomainEventQueueName();
+    }
+
+    /**
+     * @return string
+     */
+    private function getCommandQueueNameConfig()
+    {
+        return $this->getMasterFactory()->createAmqpConfig()->getCommandQueueName();
     }
 }

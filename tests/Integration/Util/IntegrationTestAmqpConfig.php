@@ -61,4 +61,20 @@ class IntegrationTestAmqpConfig implements AmqpConfig
             $_ENV['TEST_AMQP_VHOST'] :
             '/';
     }
+
+    /**
+     * @return string
+     */
+    public function getCommandQueueName()
+    {
+        return 'integration-test-command';
+    }
+
+    /**
+     * @return string
+     */
+    public function getDomainEventQueueName()
+    {
+        return 'integration-test-event';
+    }
 }

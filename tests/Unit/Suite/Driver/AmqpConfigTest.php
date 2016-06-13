@@ -72,4 +72,14 @@ class AmqpConfigTest extends \PHPUnit_Framework_TestCase
         $this->mockConfigReader->method('get')->with('amqp_vhost')->willReturn('qux');
         $this->assertSame('qux', $this->config->getAmqpVhost());
     }
+
+    public function testReturnsCommandQueueName()
+    {
+        $this->assertSame('command', $this->config->getCommandQueueName());
+    }
+
+    public function testReturnsDomainEventQueueName()
+    {
+        $this->assertSame('event', $this->config->getDomainEventQueueName());
+    }
 }

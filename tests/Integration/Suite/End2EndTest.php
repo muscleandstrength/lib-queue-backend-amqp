@@ -3,6 +3,7 @@
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp;
 
 use LizardsAndPumpkins\Messaging\MessageReceiver;
+use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpDriverFactory;
 use LizardsAndPumpkins\Messaging\Queue\Message;
 
 class End2EndTest extends \PHPUnit_Framework_TestCase implements MessageReceiver
@@ -10,11 +11,27 @@ class End2EndTest extends \PHPUnit_Framework_TestCase implements MessageReceiver
     /**
      * @var Message[]
      */
-    protected $receivedMessages = [];
+    private $receivedMessages = [];
+
+    /**
+     * @var bool
+     */
+    private static $skipTearDownAfterClass = false;
 
     public function receive(Message $message)
     {
         $this->receivedMessages[] = $message;
+    }
+
+    /**
+     * @return AmqpFactory|AmqpDriverFactory|IntegrationTestMasterFactory
+     */
+    private static function createFactory()
+    {
+        $masterFactory = new IntegrationTestMasterFactory();
+        $masterFactory->register(new AmqpFactory());
+        $masterFactory->register(new IntegrationTestFactory());
+        return $masterFactory;
     }
 
     /**
@@ -23,18 +40,35 @@ class End2EndTest extends \PHPUnit_Framework_TestCase implements MessageReceiver
      */
     private function assertArrayContainsMessageWithName($expectedName, array $messages)
     {
-        $hasMessage = array_reduce($this->receivedMessages, function ($carry, Message $message) use ($expectedName) {
+        $hasMessage = array_reduce($messages, function ($carry, Message $message) use ($expectedName) {
             return $carry || $message->getName() === $expectedName;
         }, false);
         $this->assertTrue($hasMessage);
     }
-    
+
+    protected function setUp()
+    {
+        try {
+            $factory = self::createFactory();
+            $factory->createAmqpReader($factory->createAmqpConfig()->getCommandQueueName());
+        } catch (\Exception $exception) {
+            self::$skipTearDownAfterClass = true;
+            $this->markTestSkipped(sprintf("Unable to connect to RabbitMQ: %s", $exception->getMessage()));
+        }
+    }
+
+    public static function tearDownAfterClass()
+    {
+        if (! self::$skipTearDownAfterClass) {
+            $factory = self::createFactory();
+            $reader = $factory->createAmqpReader($factory->createAmqpConfig()->getCommandQueueName());
+            $reader->deleteQueue();
+        }
+    }
+
     public function testAmqpQueueWithDriverBackend()
     {
-        /** @var IntegrationTestMasterFactory|AmqpFactory $masterFactory */
-        $masterFactory = new IntegrationTestMasterFactory();
-        $masterFactory->register(new AmqpFactory());
-        $masterFactory->register(new IntegrationTestFactory());
+        $masterFactory = self::createFactory();
         
         $commandMessageQueue = $masterFactory->createCommandMessageQueue();
         $commandMessageQueue->add(Message::withCurrentTime('foo', ['bar' => 'nvm'], ['moo' => 'baa']));

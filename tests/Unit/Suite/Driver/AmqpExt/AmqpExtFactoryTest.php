@@ -13,6 +13,8 @@ use LizardsAndPumpkins\Util\Factory\Factory;
  */
 class AmqpExtFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    private $testQueueName = 'foo';
+
     /**
      * @var AmqpExtFactory
      */
@@ -28,6 +30,11 @@ class AmqpExtFactoryTest extends \PHPUnit_Framework_TestCase
         (new AMQPUnitTestMasterFactory($this))->register($this->factory);
     }
     
+    protected function tearDown()
+    {
+        $this->factory->createAmqpReader($this->testQueueName)->deleteQueue();
+    }
+
     public function testImplementsFactoryInterface()
     {
         $this->assertInstanceOf(Factory::class, $this->factory);
@@ -35,9 +42,8 @@ class AmqpExtFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testReturnsPhpAmqpReader()
     {
-        $result = $this->factory->createAmqpReader('foo');
-        // todo: delete queue
-        $this->assertInstanceOf(AmqpExtReader::class, $result);
+        $reader = $this->factory->createAmqpReader($this->testQueueName);
+        $this->assertInstanceOf(AmqpExtReader::class, $reader);
     }
 
     public function testReturnsAMQPConnection()

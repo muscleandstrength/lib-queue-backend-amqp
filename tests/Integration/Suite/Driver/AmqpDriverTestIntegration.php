@@ -77,10 +77,7 @@ abstract class AmqpDriverTestIntegration extends \PHPUnit_Framework_TestCase
             $reader->purgeQueue();
         } catch (\Exception $exception) {
             self::$skipTearDownAfterClass = true;
-            $this->markTestSkipped(sprintf(
-                "Unable to connect to RabbitMQ: %s",
-                $exception->getMessage()
-            ));
+            $this->markTestSkipped(sprintf("Unable to connect to RabbitMQ: %s", $exception->getMessage()));
         }
     }
 

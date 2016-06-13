@@ -12,7 +12,7 @@ use LizardsAndPumpkins\Util\Factory\MasterFactory;
 use LizardsAndPumpkins\Util\Factory\RegistersDelegateFactory;
 
 /**
- * @method MasterFactory|AmqpDriverFactory getMasterFactory()
+ * @method MasterFactory|AmqpDriverFactory|AmqpFactory getMasterFactory()
  */
 class AmqpFactory implements Factory, MessageQueueFactory, RegistersDelegateFactory
 {
@@ -60,7 +60,7 @@ class AmqpFactory implements Factory, MessageQueueFactory, RegistersDelegateFact
     }
 
     /**
-     * @return Driver\AmqpConfig
+     * @return AmqpConfig
      */
     public function createAmqpConfig()
     {

@@ -53,10 +53,7 @@ class End2EndTest extends \PHPUnit_Framework_TestCase implements MessageReceiver
             $factory->createAmqpReader($factory->createAmqpConfig()->getCommandQueueName());
         } catch (\Exception $exception) {
             self::$skipTearDownAfterClass = true;
-            $this->markTestSkipped(sprintf(
-                "Unable to connect to RabbitMQ: %s",
-                $exception->getMessage()
-            ));
+            $this->markTestSkipped(sprintf("Unable to connect to RabbitMQ: %s", $exception->getMessage()));
         }
     }
 

@@ -91,10 +91,7 @@ class CrossDriverTest extends \PHPUnit_Framework_TestCase
             $amqpExtFactory = $this->createAmqpExtMasterFactory();
             $amqpExtFactory->createAmqpReader($this->exchangeName)->purgeQueue();
         } catch (\Exception $exception) {
-            $this->markTestSkipped(sprintf(
-                "Unable to connect to RabbitMQ: %s",
-                $exception->getMessage()
-            ));
+            $this->markTestSkipped(sprintf("Unable to connect to RabbitMQ: %s", $exception->getMessage()));
         }
     }
     

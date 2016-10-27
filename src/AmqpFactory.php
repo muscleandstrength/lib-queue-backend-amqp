@@ -8,17 +8,17 @@ use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpDriverFactory;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\DriverFactoryLocator;
 use LizardsAndPumpkins\Util\Factory\Factory;
 use LizardsAndPumpkins\Util\Factory\FactoryTrait;
+use LizardsAndPumpkins\Util\Factory\FactoryWithCallback;
 use LizardsAndPumpkins\Util\Factory\MasterFactory;
-use LizardsAndPumpkins\Util\Factory\RegistersDelegateFactory;
 
 /**
  * @method MasterFactory|AmqpDriverFactory|AmqpFactory getMasterFactory()
  */
-class AmqpFactory implements Factory, MessageQueueFactory, RegistersDelegateFactory
+class AmqpFactory implements Factory, MessageQueueFactory, FactoryWithCallback
 {
     use FactoryTrait;
 
-    public function registerDelegateFactories(MasterFactory $masterFactory)
+    public function factoryRegistrationCallback(MasterFactory $masterFactory)
     {
         $masterFactory->register($this->createDriverFactoryLocator()->getDriverFactory());
     }

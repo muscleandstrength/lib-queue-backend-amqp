@@ -25,6 +25,7 @@ class AmqpExtFactoryTest extends \PHPUnit_Framework_TestCase
         if (!extension_loaded("amqp")) {
             $this->markTestSkipped('PHP extension amqp not found');
         }
+
         require_once __DIR__ . '/AMQPUnitTestMasterFactory.php';
         $this->factory = new AmqpExtFactory();
         (new AMQPUnitTestMasterFactory($this))->register($this->factory);

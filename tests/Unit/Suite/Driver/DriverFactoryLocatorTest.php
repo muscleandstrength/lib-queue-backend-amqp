@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt\AmqpExtFactory;
@@ -20,11 +22,7 @@ class DriverFactoryLocatorTest extends \PHPUnit_Framework_TestCase
      */
     private $factoryLocator;
 
-    /**
-     * @param string $ext
-     * @return bool
-     */
-    public static function extensionLoadedCall($ext)
+    public static function extensionLoadedCall(string $ext) : bool
     {
         return (bool) self::$extensionLoadedReturnValue;
     }
@@ -47,11 +45,7 @@ class DriverFactoryLocatorTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-/**
- * @param string $ext
- * @return bool
- */
-function extension_loaded($ext)
+function extension_loaded(string $ext) : bool
 {
     return DriverFactoryLocatorTest::extensionLoadedCall($ext);
 }

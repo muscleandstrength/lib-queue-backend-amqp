@@ -1,20 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver;
 
 use LizardsAndPumpkins\Util\Factory\Factory;
 
 interface AmqpDriverFactory extends Factory
 {
-    /**
-     * @param string $exchangeName
-     * @return AmqpReader
-     */
-    public function createAmqpReader($exchangeName);
+    public function createAmqpReader(string $exchangeName) : AmqpReader;
 
-    /**
-     * @param string $exchangeName
-     * @return AmqpWriter
-     */
-    public function createAmqpWriter($exchangeName);
+    public function createAmqpWriter(string $exchangeName) : AmqpWriter;
 }

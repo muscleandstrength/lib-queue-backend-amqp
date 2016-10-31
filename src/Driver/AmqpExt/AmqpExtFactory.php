@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpDriverFactory;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpReader;
+use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpWriter;
 use LizardsAndPumpkins\Util\Factory\Factory;
 use LizardsAndPumpkins\Util\Factory\FactoryTrait;
 use LizardsAndPumpkins\Util\Factory\MasterFactory;
@@ -25,39 +28,24 @@ class AmqpExtFactory implements Factory, AmqpDriverFactory
      */
     private $channel;
     
-    /**
-     * @param string $exchangeName
-     * @return AmqpReader
-     */
-    public function createAmqpReader($exchangeName)
+    public function createAmqpReader(string $exchangeName) : AmqpReader
     {
         $channel = $this->getAMQPChannel();
         $AMQPQueueFactory = $this->createAMQPQueueFactory($channel);
         return new AmqpExtReader($this->createAmqpQueue($exchangeName, $AMQPQueueFactory));
     }
 
-    /**
-     * @param string $exchangeName
-     * @return AmqpExtWriter
-     */
-    public function createAmqpWriter($exchangeName)
+    public function createAmqpWriter(string $exchangeName) : AmqpWriter
     {
         return new AmqpExtWriter($this->createExchange($exchangeName));
     }
 
-    /**
-     * @param \AMQPChannel $channel
-     * @return AmpqExtQueueFactory
-     */
-    private function createAMQPQueueFactory(\AMQPChannel $channel)
+    private function createAMQPQueueFactory(\AMQPChannel $channel) : AmpqExtQueueFactory
     {
         return new AmpqExtQueueFactory($channel);
     }
 
-    /**
-     * @return \AMQPChannel
-     */
-    private function getAMQPChannel()
+    private function getAMQPChannel() : \AMQPChannel
     {
         if (! isset($this->channel)) {
             $this->channel = $this->createAMQPChannel();
@@ -65,21 +53,14 @@ class AmqpExtFactory implements Factory, AmqpDriverFactory
         return $this->channel;
     }
 
-    /**
-     * @return \AMQPChannel
-     */
-    private function createAMQPChannel()
+    private function createAMQPChannel() : \AMQPChannel
     {
         $AMQPChannel = new \AMQPChannel($this->getAMQPConnection());
         $AMQPChannel->setPrefetchCount(1);
         return $AMQPChannel;
     }
 
-    /**
-     * @param string $exchangeName
-     * @return \AMQPExchange
-     */
-    private function createExchange($exchangeName)
+    private function createExchange(string $exchangeName) : \AMQPExchange
     {
         $AMQPExchange = new \AMQPExchange($this->getAMQPChannel());
         $AMQPExchange->setName($exchangeName);
@@ -89,12 +70,7 @@ class AmqpExtFactory implements Factory, AmqpDriverFactory
         return $AMQPExchange;
     }
 
-    /**
-     * @param string $exchangeName
-     * @param AmpqExtQueueFactory $queueFactory
-     * @return \AMQPQueue
-     */
-    private function createAmqpQueue($exchangeName, AmpqExtQueueFactory $queueFactory)
+    private function createAmqpQueue(string $exchangeName, AmpqExtQueueFactory $queueFactory) : \AMQPQueue
     {
         $AMQPQueue = $queueFactory->create();
         $AMQPQueue->setName($exchangeName . '-queue');
@@ -104,10 +80,7 @@ class AmqpExtFactory implements Factory, AmqpDriverFactory
         return $AMQPQueue;
     }
 
-    /**
-     * @return \AMQPConnection
-     */
-    public function getAMQPConnection()
+    public function getAMQPConnection() : \AMQPConnection
     {
         if (!isset($this->connection)) {
             $this->connection = $this->getMasterFactory()->createAMQPConnection();
@@ -116,10 +89,7 @@ class AmqpExtFactory implements Factory, AmqpDriverFactory
         return $this->connection;
     }
 
-    /**
-     * @return \AMQPConnection
-     */
-    public function createAMQPConnection()
+    public function createAMQPConnection() : \AMQPConnection
     {
         $AMQPConnection = new \AMQPConnection([
             'host'     => $this->getAmqpHostConfig(),
@@ -131,42 +101,27 @@ class AmqpExtFactory implements Factory, AmqpDriverFactory
         return $AMQPConnection;
     }
 
-    /**
-     * @return string
-     */
-    private function getAmqpHostConfig()
+    private function getAmqpHostConfig() : string
     {
         return $this->getMasterFactory()->createAmqpConfig()->getAmqpHost();
     }
 
-    /**
-     * @return string
-     */
-    private function getAmqpPortConfig()
+    private function getAmqpPortConfig() : string
     {
         return $this->getMasterFactory()->createAmqpConfig()->getAmqpPort();
     }
 
-    /**
-     * @return string
-     */
-    private function getAmqpUsernameConfig()
+    private function getAmqpUsernameConfig() : string
     {
         return $this->getMasterFactory()->createAmqpConfig()->getAmqpUsername();
     }
 
-    /**
-     * @return string
-     */
-    private function getAmqpPasswordConfig()
+    private function getAmqpPasswordConfig() : string
     {
         return $this->getMasterFactory()->createAmqpConfig()->getAmqpPassword();
     }
 
-    /**
-     * @return string
-     */
-    private function getAmqpVhostConfig()
+    private function getAmqpVhostConfig() : string
     {
         return $this->getMasterFactory()->createAmqpConfig()->getAmqpVhost();
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp;
 
 use LizardsAndPumpkins\Messaging\MessageReceiver;
@@ -63,6 +65,7 @@ class AmqpQueueTest extends \PHPUnit_Framework_TestCase
         $this->mockAmqpReader->method('consume')->willReturnCallback(function (callable $callback) {
             $callback($this->testMessage->serialize());
         });
+
         /** @var MessageReceiver|\PHPUnit_Framework_MockObject_MockObject $stubReceiver */
         $stubReceiver = $this->createMock(MessageReceiver::class);
         $stubReceiver->expects($this->once())->method('receive')->with($this->isInstanceOf(Message::class));
@@ -75,6 +78,7 @@ class AmqpQueueTest extends \PHPUnit_Framework_TestCase
         $this->mockAmqpReader->method('consume')->willReturnCallback(function (callable $callback) {
             $this->assertSame(AmqpReader::CONSUMER_CANCEL, $callback($this->testMessage->serialize()));
         });
+
         /** @var MessageReceiver|\PHPUnit_Framework_MockObject_MockObject $stubReceiver */
         $stubReceiver = $this->createMock(MessageReceiver::class);
 

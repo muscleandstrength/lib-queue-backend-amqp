@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib;
 
 use PhpAmqpLib\Channel\AMQPChannel;
@@ -16,11 +18,7 @@ class AmqpLibQueueDeclaration
         $this->AMQPChannel = $AMQPChannel;
     }
     
-    /**
-     * @param string $queueName
-     * @return int
-     */
-    public function declareQueue($queueName)
+    public function declareQueue(string $queueName) : int
     {
         $messageCount = $this->AMQPChannel->queue_declare(
             $queueName,

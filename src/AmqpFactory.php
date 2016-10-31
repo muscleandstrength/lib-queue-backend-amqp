@@ -1,19 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp;
 
 use LizardsAndPumpkins\Messaging\MessageQueueFactory;
 use LizardsAndPumpkins\Messaging\Queue;
-use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpDriverFactory;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\DriverFactoryLocator;
 use LizardsAndPumpkins\Util\Factory\Factory;
 use LizardsAndPumpkins\Util\Factory\FactoryTrait;
 use LizardsAndPumpkins\Util\Factory\FactoryWithCallback;
 use LizardsAndPumpkins\Util\Factory\MasterFactory;
 
-/**
- * @method MasterFactory|AmqpDriverFactory|AmqpFactory getMasterFactory()
- */
 class AmqpFactory implements Factory, MessageQueueFactory, FactoryWithCallback
 {
     use FactoryTrait;
@@ -23,19 +21,12 @@ class AmqpFactory implements Factory, MessageQueueFactory, FactoryWithCallback
         $masterFactory->register($this->createDriverFactoryLocator()->getDriverFactory());
     }
 
-    /**
-     * @return DriverFactoryLocator
-     */
-    public function createDriverFactoryLocator()
+    public function createDriverFactoryLocator() : DriverFactoryLocator
     {
         return new DriverFactoryLocator();
     }
 
-    /**
-     * @param string $name
-     * @return AmqpQueue
-     */
-    public function createAmqpQueue($name)
+    public function createAmqpQueue(string $name) : AmqpQueue
     {
         return new AmqpQueue(
             $this->getMasterFactory()->createAmqpReader($name),
@@ -43,42 +34,27 @@ class AmqpFactory implements Factory, MessageQueueFactory, FactoryWithCallback
         );
     }
 
-    /**
-     * @return Queue
-     */
-    public function createEventMessageQueue()
+    public function createEventMessageQueue() : Queue
     {
         return $this->createAmqpQueue($this->getDomainEventQueueNameConfig());
     }
 
-    /**
-     * @return Queue
-     */
-    public function createCommandMessageQueue()
+    public function createCommandMessageQueue() : Queue
     {
         return $this->createAmqpQueue($this->getCommandQueueNameConfig());
     }
 
-    /**
-     * @return AmqpConfig
-     */
-    public function createAmqpConfig()
+    public function createAmqpConfig() : AmqpConfig
     {
         return new Driver\AmqpConfig($this->getMasterFactory()->createConfigReader());
     }
 
-    /**
-     * @return string
-     */
-    private function getDomainEventQueueNameConfig()
+    private function getDomainEventQueueNameConfig() : string
     {
         return $this->getMasterFactory()->createAmqpConfig()->getDomainEventQueueName();
     }
 
-    /**
-     * @return string
-     */
-    private function getCommandQueueNameConfig()
+    private function getCommandQueueNameConfig() : string
     {
         return $this->getMasterFactory()->createAmqpConfig()->getCommandQueueName();
     }

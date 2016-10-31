@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\AmqpConfig;
@@ -20,11 +22,7 @@ class AMQPUnitTestMasterFactory implements MasterFactory
         $this->testCase = $testCase;
     }
 
-    /**
-     * @param string $class
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function createMock($class)
+    private function createMock(string $class) : \PHPUnit_Framework_MockObject_MockObject
     {
         return (new \PHPUnit_Framework_MockObject_MockBuilder($this->testCase, $class))
             ->disableOriginalConstructor()
@@ -32,19 +30,13 @@ class AMQPUnitTestMasterFactory implements MasterFactory
             ->getMock();
     }
 
-    /**
-     * @return \AMQPConnection
-     */
-    public function createAMQPConnection()
+    public function createAMQPConnection() : \AMQPConnection
     {
         $credentials = [];
         return new \AMQPConnection($credentials);
     }
 
-    /**
-     * @return AmqpConfig
-     */
-    public function createAmqpConfig()
+    public function createAmqpConfig() : AmqpConfig
     {
         return $this->createMock(AmqpConfig::class);
     }

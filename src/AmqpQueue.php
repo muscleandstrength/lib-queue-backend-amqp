@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp;
 
 use LizardsAndPumpkins\Messaging\MessageReceiver;
@@ -32,10 +34,7 @@ class AmqpQueue implements Queue, Clearable
         $this->amqpWriter = $amqpWriter;
     }
     
-    /**
-     * @return int
-     */
-    public function count()
+    public function count() : int
     {
         return $this->amqpReader->countMessages();
     }
@@ -45,11 +44,7 @@ class AmqpQueue implements Queue, Clearable
         $this->amqpWriter->addMessage($message->serialize());
     }
 
-    /**
-     * @param MessageReceiver $messageReceiver
-     * @param int $maxNumberOfMessagesToConsume
-     */
-    public function consume(MessageReceiver $messageReceiver, $maxNumberOfMessagesToConsume)
+    public function consume(MessageReceiver $messageReceiver, int $maxNumberOfMessagesToConsume)
     {
         $this->remainingNumberOfMessagesToConsume = $maxNumberOfMessagesToConsume;
         $this->amqpReader->consume(function ($rawMessage) use ($messageReceiver) {

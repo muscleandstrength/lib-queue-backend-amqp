@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpReader;
@@ -28,22 +30,17 @@ class AmqpLibReader implements AmqpReader
      */
     private $consumerTag;
 
-    /**
-     * @param AMQPChannel $AMQPChannel
-     * @param string $queueName
-     * @param AmqpLibQueueDeclaration $amqpLibQueueDeclaration
-     */
-    public function __construct(AMQPChannel $AMQPChannel, $queueName, AmqpLibQueueDeclaration $amqpLibQueueDeclaration)
-    {
+    public function __construct(
+        AMQPChannel $AMQPChannel,
+        string $queueName,
+        AmqpLibQueueDeclaration $amqpLibQueueDeclaration
+    ) {
         $this->queueName = $queueName;
         $this->AMQPChannel = $AMQPChannel;
         $this->amqpLibQueueDeclaration = $amqpLibQueueDeclaration;
     }
 
-    /**
-     * @return int
-     */
-    public function countMessages()
+    public function countMessages() : int
     {
         return $this->amqpLibQueueDeclaration->declareQueue($this->queueName);
     }

@@ -1,79 +1,57 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp;
 
 class IntegrationTestAmqpConfig implements AmqpConfig
 {
-    /**
-     * @return string
-     */
-    public function getAmqpHost()
+    public function getAmqpHost() : string
     {
         return isset($_ENV['TEST_AMQP_HOST']) ?
             $_ENV['TEST_AMQP_HOST'] :
             'localhost';
     }
 
-    /**
-     * @return string
-     */
-    public function getAmqpPort()
+    public function getAmqpPort() : string
     {
         return isset($_ENV['TEST_AMQP_PORT']) ?
             $_ENV['TEST_AMQP_PORT'] :
             '5672';
     }
 
-    /**
-     * @return string
-     */
-    public function getAmqpUsername()
+    public function getAmqpUsername() : string
     {
         return isset($_ENV['TEST_AMQP_USERNAME']) ?
             $_ENV['TEST_AMQP_USERNAME'] :
             'guest';
     }
 
-    /**
-     * @return string
-     */
-    public function getAmqpPassword()
+    public function getAmqpPassword() : string
     {
         return isset($_ENV['TEST_AMQP_PASSWORD']) ?
             $_ENV['TEST_AMQP_PASSWORD'] :
             'guest';
     }
 
-    /**
-     * @return string
-     */
-    public function getAmqpExchangeName()
+    public function getAmqpExchangeName() : string
     {
         return 'integration-test';
     }
 
-    /**
-     * @return string
-     */
-    public function getAmqpVhost()
+    public function getAmqpVhost() : string
     {
         return isset($_ENV['TEST_AMQP_VHOST']) ?
             $_ENV['TEST_AMQP_VHOST'] :
             '/';
     }
 
-    /**
-     * @return string
-     */
-    public function getCommandQueueName()
+    public function getCommandQueueName() : string
     {
         return 'integration-test-command';
     }
 
-    /**
-     * @return string
-     */
-    public function getDomainEventQueueName()
+    public function getDomainEventQueueName() : string
     {
         return 'integration-test-event';
     }

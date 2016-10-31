@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt\AmqpExtFactory;
@@ -24,7 +26,7 @@ class CrossDriverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return AmqpDriverFactory
+     * @return AmqpDriverFactory|IntegrationTestMasterFactory
      */
     private function createAmqpLibMasterFactory()
     {
@@ -32,18 +34,14 @@ class CrossDriverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return AmqpDriverFactory
+     * @return AmqpDriverFactory|IntegrationTestMasterFactory
      */
     private function createAmqpExtMasterFactory()
     {
         return $this->createMasterFactoryWithGivenDriver(new AmqpExtFactory());
     }
 
-    /**
-     * @param string $expected
-     * @param AmqpReader $reader
-     */
-    private function assertNextMessageSame($expected, AmqpReader $reader)
+    private function assertNextMessageSame(string $expected, AmqpReader $reader)
     {
         $reader->consume(function ($message) use ($expected) {
             $this->assertSame($expected, $message);
@@ -56,7 +54,7 @@ class CrossDriverTest extends \PHPUnit_Framework_TestCase
      * @param int $numberOfMessagesToRead
      * @return string[]
      */
-    private function readNumberOfMessages(AmqpReader $reader, $numberOfMessagesToRead)
+    private function readNumberOfMessages(AmqpReader $reader, int $numberOfMessagesToRead) : array
     {
         $receivedMessages = [];
         $reader->consume(function ($message) use (&$receivedMessages, $numberOfMessagesToRead) {

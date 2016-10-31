@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpReader;
@@ -16,10 +18,7 @@ class AmqpExtReader implements AmqpReader
         $this->AMQPQueue = $AMQPQueue;
     }
 
-    /**
-     * @return int
-     */
-    public function countMessages()
+    public function countMessages() : int
     {
         return $this->AMQPQueue->declareQueue();
     }

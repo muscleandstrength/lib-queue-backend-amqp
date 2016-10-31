@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpWriter;
@@ -16,11 +18,10 @@ class AmqpExtWriter implements AmqpWriter
         $this->AMQPExchange = $AMQPExchange;
     }
 
-    /**
-     * @param string $message
-     */
-    public function addMessage($message)
+    public function addMessage(string $message)
     {
-        $this->AMQPExchange->publish($message, null, \AMQP_MANDATORY, ['delivery_mode' => \AMQP_DURABLE]);
+        $routingKey = 'Routing key is ignored as "fanout" is used.';
+
+        $this->AMQPExchange->publish($message, $routingKey, \AMQP_MANDATORY, ['delivery_mode' => \AMQP_DURABLE]);
     }
 }

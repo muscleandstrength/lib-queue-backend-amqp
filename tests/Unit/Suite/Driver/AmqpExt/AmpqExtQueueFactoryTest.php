@@ -11,7 +11,7 @@ class AmpqExtQueueFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testReturnsAnAMQPQueueInstance()
     {
-        if (!extension_loaded("amqp")) {
+        if (!extension_loaded('amqp')) {
             $this->markTestSkipped('PHP extension amqp not found');
         }
 

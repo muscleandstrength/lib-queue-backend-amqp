@@ -23,7 +23,7 @@ class AmqpExtReaderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        if (!extension_loaded("amqp")) {
+        if (!extension_loaded('amqp')) {
             $this->markTestSkipped('PHP extension amqp not found');
         }
 

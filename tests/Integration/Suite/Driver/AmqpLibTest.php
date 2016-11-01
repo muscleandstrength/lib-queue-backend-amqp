@@ -1,24 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib\AmqpLibFactory;
+use LizardsAndPumpkins\Messaging\Queue\Amqp\IntegrationTestMasterFactory;
 use LizardsAndPumpkins\Util\Factory\MasterFactory;
 
 class AmqpLibTest extends AmqpDriverTestIntegration
 {
     /**
-     * @return AmqpLibFactory
+     * @return AmqpDriverFactory|IntegrationTestMasterFactory
      */
     final protected static function createMasterFactoryWithAmqpDriver()
     {
         return self::createTestMasterFactory(new AmqpLibFactory());
     }
 
-    /**
-     * @return string
-     */
-    final protected static function getQueueName()
+    final protected static function getQueueName() : string
     {
         return 'test-amqp-lib';
     }

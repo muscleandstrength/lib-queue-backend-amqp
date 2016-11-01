@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp;
 
 use LizardsAndPumpkins\Util\Factory\Factory;
@@ -9,10 +11,7 @@ class IntegrationTestFactory implements Factory
 {
     use FactoryTrait;
 
-    /**
-     * @return AmqpConfig
-     */
-    public function createAmqpConfig()
+    public function createAmqpConfig() : AmqpConfig
     {
         return new IntegrationTestAmqpConfig();
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpWriter;
@@ -21,6 +23,10 @@ class AmqpExtWriterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        if (!extension_loaded('amqp')) {
+            $this->markTestSkipped('PHP extension amqp not found');
+        }
+
         $this->mockExchange = $this->createMock(\AMQPExchange::class);
         $this->writer = new AmqpExtWriter($this->mockExchange);
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\IntegrationTestFactory;
@@ -24,18 +26,9 @@ abstract class AmqpDriverTestIntegration extends \PHPUnit_Framework_TestCase
      */
     abstract protected function closeConnection(MasterFactory $masterFactory);
 
-    /**
-     * @return AmqpDriverFactory|MasterFactory
-     */
-    protected static function createMasterFactoryWithAmqpDriver()
-    {
-        throw new \LogicException(sprintf('Override %s in concrete implementation', __FUNCTION__));
-    }
+    abstract protected static function createMasterFactoryWithAmqpDriver();
 
-    protected static function getQueueName()
-    {
-        throw new \LogicException(sprintf('Override %s in concrete implementation', __FUNCTION__));
-    }
+    abstract protected static function getQueueName() : string;
 
     /**
      * @param AmqpDriverFactory $driverFactory
@@ -49,11 +42,7 @@ abstract class AmqpDriverTestIntegration extends \PHPUnit_Framework_TestCase
         return $masterFactory;
     }
 
-    /**
-     * @param string $expected
-     * @param AmqpReader $reader
-     */
-    private function assertNextConsumedMessageSame($expected, AmqpReader $reader)
+    private function assertNextConsumedMessageSame(string $expected, AmqpReader $reader)
     {
         $reader->consume(function ($messageBody) use ($expected) {
             $this->assertSame($expected, $messageBody);

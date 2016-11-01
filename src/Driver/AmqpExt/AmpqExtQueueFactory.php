@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt;
 
 class AmpqExtQueueFactory
@@ -14,10 +16,7 @@ class AmpqExtQueueFactory
         $this->AMQPChannel = $channel;
     }
 
-    /**
-     * @return \AMQPQueue
-     */
-    public function create()
+    public function create() : \AMQPQueue
     {
         $AMQPQueue = new \AMQPQueue($this->AMQPChannel);
         $AMQPQueue->setFlags(\AMQP_DURABLE);

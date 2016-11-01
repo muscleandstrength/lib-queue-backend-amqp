@@ -1,41 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp;
 
 interface AmqpConfig
 {
-    /**
-     * @return string
-     */
-    public function getAmqpHost();
+    public function getAmqpHost() : string;
 
-    /**
-     * @return string
-     */
-    public function getAmqpPort();
+    public function getAmqpPort() : string;
 
-    /**
-     * @return string
-     */
-    public function getAmqpUsername();
+    public function getAmqpUsername() : string;
 
-    /**
-     * @return string
-     */
-    public function getAmqpPassword();
+    public function getAmqpPassword() : string;
 
-    /**
-     * @return string
-     */
-    public function getAmqpVhost();
+    public function getAmqpVhost() : string;
 
-    /**
-     * @return string
-     */
-    public function getCommandQueueName();
+    public function getCommandQueueName() : string;
 
-    /**
-     * @return string
-     */
-    public function getDomainEventQueueName();
+    public function getDomainEventQueueName() : string;
 }

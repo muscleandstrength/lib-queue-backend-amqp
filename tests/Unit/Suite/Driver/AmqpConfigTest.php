@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\AmqpConfig as AmqpConfigInterface;

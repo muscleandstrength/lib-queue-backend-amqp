@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp;
 
 use LizardsAndPumpkins\Messaging\MessageReceiver;
@@ -38,7 +40,7 @@ class End2EndTest extends \PHPUnit_Framework_TestCase implements MessageReceiver
      * @param string $expectedName
      * @param Message[] $messages
      */
-    private function assertArrayContainsMessageWithName($expectedName, array $messages)
+    private function assertArrayContainsMessageWithName(string $expectedName, array $messages)
     {
         $hasMessage = array_reduce($messages, function ($carry, Message $message) use ($expectedName) {
             return $carry || $message->getName() === $expectedName;

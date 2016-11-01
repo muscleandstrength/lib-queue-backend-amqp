@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpWriter;
@@ -20,20 +22,13 @@ class AmqpLibWriter implements AmqpWriter
      */
     private $exchangeName;
 
-    /**
-     * @param AMQPChannel $AMQPChannel
-     * @param string $exchangeName
-     */
-    public function __construct(AMQPChannel $AMQPChannel, $exchangeName)
+    public function __construct(AMQPChannel $AMQPChannel, string $exchangeName)
     {
         $this->AMQPChannel = $AMQPChannel;
         $this->exchangeName = $exchangeName;
     }
 
-    /**
-     * @param string $message
-     */
-    public function addMessage($message)
+    public function addMessage(string $message)
     {
         $msg = new AMQPMessage($message, ['delivery_mode' => $this->persistent]);
         $this->AMQPChannel->basic_publish($msg, $this->exchangeName, $routingKey = '', $mandatory = true);

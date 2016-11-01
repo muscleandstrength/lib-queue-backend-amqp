@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp;
 
 use LizardsAndPumpkins\Messaging\MessageQueueFactory;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpDriverFactory;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\DriverFactoryLocator;
 use LizardsAndPumpkins\Util\Factory\Factory;
+use LizardsAndPumpkins\Util\Factory\FactoryWithCallback;
 use LizardsAndPumpkins\Util\Factory\MasterFactory;
-use LizardsAndPumpkins\Util\Factory\RegistersDelegateFactory;
 use LizardsAndPumpkins\Util\Factory\SampleMasterFactory;
 
 /**
@@ -36,7 +38,7 @@ class AmqpFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testImplementsRegistersDelegateFactory()
     {
-        $this->assertInstanceOf(RegistersDelegateFactory::class, $this->amqpFactory);
+        $this->assertInstanceOf(FactoryWithCallback::class, $this->amqpFactory);
     }
 
     public function testImplementsMessageQueueFactoryInterface()
@@ -56,6 +58,6 @@ class AmqpFactoryTest extends \PHPUnit_Framework_TestCase
         $mockMasterFactory->expects($this->once())->method('register')
             ->with($this->isInstanceOf(AmqpDriverFactory::class));
 
-        $this->amqpFactory->registerDelegateFactories($mockMasterFactory);
+        $this->amqpFactory->factoryRegistrationCallback($mockMasterFactory);
     }
 }

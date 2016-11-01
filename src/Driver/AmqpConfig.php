@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver;
 
 use LizardsAndPumpkins\Util\Config\ConfigReader;
@@ -26,18 +28,12 @@ class AmqpConfig implements \LizardsAndPumpkins\Messaging\Queue\Amqp\AmqpConfig
         $this->configReader = $configReader;
     }
 
-    /**
-     * @return string
-     */
-    public function getAmqpHost()
+    public function getAmqpHost() : string
     {
         return $this->getHostWithoutPort();
     }
 
-    /**
-     * @return string
-     */
-    private function getHostWithoutPort()
+    private function getHostWithoutPort() : string
     {
         $host = $this->configReader->get(self::$hostConfigKey);
         return false !== ($pos = strpos($host, ':')) ?
@@ -45,18 +41,12 @@ class AmqpConfig implements \LizardsAndPumpkins\Messaging\Queue\Amqp\AmqpConfig
             $host;
     }
 
-    /**
-     * @return string
-     */
-    public function getAmqpPort()
+    public function getAmqpPort() : string
     {
         return $this->getPort();
     }
 
-    /**
-     * @return string
-     */
-    private function getPort()
+    private function getPort() : string
     {
         $host = $this->configReader->get(self::$hostConfigKey);
         return false !== ($pos = strpos($host, ':')) ?
@@ -64,42 +54,27 @@ class AmqpConfig implements \LizardsAndPumpkins\Messaging\Queue\Amqp\AmqpConfig
             self::$defaultPort;
     }
 
-    /**
-     * @return string
-     */
-    public function getAmqpUsername()
+    public function getAmqpUsername() : string
     {
         return $this->configReader->get(self::$userConfigKey);
     }
 
-    /**
-     * @return string
-     */
-    public function getAmqpPassword()
+    public function getAmqpPassword() : string
     {
         return $this->configReader->get(self::$passwordConfigKey);
     }
 
-    /**
-     * @return string
-     */
-    public function getAmqpVhost()
+    public function getAmqpVhost() : string
     {
         return $this->configReader->get(self::$vhostConfigKey);
     }
 
-    /**
-     * @return string
-     */
-    public function getCommandQueueName()
+    public function getCommandQueueName() : string
     {
         return 'command';
     }
 
-    /**
-     * @return string
-     */
-    public function getDomainEventQueueName()
+    public function getDomainEventQueueName() : string
     {
         return 'event';
     }

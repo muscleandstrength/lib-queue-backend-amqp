@@ -20,8 +20,6 @@ class AmqpExtWriter implements AmqpWriter
 
     public function addMessage(string $message)
     {
-        $routingKey = 'Routing key is ignored as "fanout" is used.';
-
-        $this->AMQPExchange->publish($message, $routingKey, \AMQP_MANDATORY, ['delivery_mode' => \AMQP_DURABLE]);
+        $this->AMQPExchange->publish($message, '', \AMQP_MANDATORY, ['delivery_mode' => \AMQP_DURABLE]);
     }
 }

@@ -44,9 +44,9 @@ class AmqpQueue implements Queue, Clearable
         $this->amqpWriter->addMessage($message->serialize());
     }
 
-    public function consume(MessageReceiver $messageReceiver, int $maxNumberOfMessagesToConsume)
+    public function consume(MessageReceiver $messageReceiver, int $numberOfMessagesToConsume)
     {
-        $this->remainingNumberOfMessagesToConsume = $maxNumberOfMessagesToConsume;
+        $this->remainingNumberOfMessagesToConsume = $numberOfMessagesToConsume;
         $this->amqpReader->consume(function ($rawMessage) use ($messageReceiver) {
             $messageReceiver->receive(Message::rehydrate($rawMessage));
             return 0 < --$this->remainingNumberOfMessagesToConsume ?

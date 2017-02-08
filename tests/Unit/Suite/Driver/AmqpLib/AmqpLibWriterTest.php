@@ -6,11 +6,12 @@ namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpWriter;
 use PhpAmqpLib\Message\AMQPMessage;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib\AmqpLibWriter
  */
-class AmqpLibWriterTest extends \PHPUnit_Framework_TestCase
+class AmqpLibWriterTest extends TestCase
 {
     /**
      * @var \PhpAmqpLib\Channel\AMQPChannel|\PHPUnit_Framework_MockObject_MockObject

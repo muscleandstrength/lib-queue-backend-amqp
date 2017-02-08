@@ -11,12 +11,13 @@ use LizardsAndPumpkins\Util\Factory\Factory;
 use LizardsAndPumpkins\Util\Factory\FactoryWithCallback;
 use LizardsAndPumpkins\Util\Factory\MasterFactory;
 use LizardsAndPumpkins\Util\Factory\SampleMasterFactory;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \LizardsAndPumpkins\Messaging\Queue\Amqp\AmqpFactory
  * @uses   \LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\DriverFactoryLocator
  */
-class AmqpFactoryTest extends \PHPUnit_Framework_TestCase
+class AmqpFactoryTest extends TestCase
 {
     /**
      * @var AmqpFactory

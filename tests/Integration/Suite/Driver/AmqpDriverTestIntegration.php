@@ -7,8 +7,9 @@ namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\IntegrationTestFactory;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\IntegrationTestMasterFactory;
 use LizardsAndPumpkins\Util\Factory\MasterFactory;
+use PHPUnit\Framework\TestCase;
 
-abstract class AmqpDriverTestIntegration extends \PHPUnit_Framework_TestCase
+abstract class AmqpDriverTestIntegration extends TestCase
 {
     /**
      * @var AmqpDriverFactory|IntegrationTestMasterFactory

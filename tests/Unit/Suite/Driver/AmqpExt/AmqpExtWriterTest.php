@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpWriter;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt\AmqpExtWriter
  */
-class AmqpExtWriterTest extends \PHPUnit_Framework_TestCase
+class AmqpExtWriterTest extends TestCase
 {
     /**
      * @var \AMQPExchange|\PHPUnit_Framework_MockObject_MockObject

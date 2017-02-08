@@ -7,17 +7,18 @@ namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\AmqpConfig;
 use LizardsAndPumpkins\Util\Factory\MasterFactory;
 use LizardsAndPumpkins\Util\Factory\MasterFactoryTrait;
+use PHPUnit\Framework\TestCase;
 
 class AMQPUnitTestMasterFactory implements MasterFactory
 {
     use MasterFactoryTrait;
 
     /**
-     * @var \PHPUnit_Framework_TestCase
+     * @var TestCase
      */
     private $testCase;
 
-    public function __construct(\PHPUnit_Framework_TestCase $testCase)
+    public function __construct(TestCase $testCase)
     {
         $this->testCase = $testCase;
     }

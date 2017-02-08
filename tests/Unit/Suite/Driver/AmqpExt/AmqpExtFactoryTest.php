@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt;
 
 use LizardsAndPumpkins\Util\Factory\Factory;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt\AmqpExtFactory
@@ -13,7 +14,7 @@ use LizardsAndPumpkins\Util\Factory\Factory;
  * @uses   \LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt\AmqpExtWriter
  * @uses   \LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpConfig
  */
-class AmqpExtFactoryTest extends \PHPUnit_Framework_TestCase
+class AmqpExtFactoryTest extends TestCase
 {
     private $testQueueName = 'foo';
 

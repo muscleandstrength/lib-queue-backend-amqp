@@ -6,11 +6,12 @@ namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt\AmqpExtFactory;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib\AmqpLibFactory;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\DriverFactoryLocator
  */
-class DriverFactoryLocatorTest extends \PHPUnit_Framework_TestCase
+class DriverFactoryLocatorTest extends TestCase
 {
     /**
      * @var bool

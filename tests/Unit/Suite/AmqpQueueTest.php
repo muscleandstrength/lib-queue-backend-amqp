@@ -9,11 +9,12 @@ use LizardsAndPumpkins\Messaging\Queue;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpReader;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpWriter;
 use LizardsAndPumpkins\Messaging\Queue\Message;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \LizardsAndPumpkins\Messaging\Queue\Amqp\AmqpQueue
  */
-class AmqpQueueTest extends \PHPUnit_Framework_TestCase
+class AmqpQueueTest extends TestCase
 {
     /**
      * @var AmqpQueue

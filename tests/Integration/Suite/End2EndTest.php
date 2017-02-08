@@ -7,8 +7,9 @@ namespace LizardsAndPumpkins\Messaging\Queue\Amqp;
 use LizardsAndPumpkins\Messaging\MessageReceiver;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpDriverFactory;
 use LizardsAndPumpkins\Messaging\Queue\Message;
+use PHPUnit\Framework\TestCase;
 
-class End2EndTest extends \PHPUnit_Framework_TestCase implements MessageReceiver
+class End2EndTest extends TestCase implements MessageReceiver
 {
     /**
      * @var Message[]

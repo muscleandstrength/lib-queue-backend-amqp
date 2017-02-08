@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * @covers \LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt\AmpqExtQueueFactory
  */
-class AmpqExtQueueFactoryTest extends \PHPUnit_Framework_TestCase
+class AmpqExtQueueFactoryTest extends TestCase
 {
     public function testReturnsAnAMQPQueueInstance()
     {

@@ -7,11 +7,12 @@ namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpReader;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib\AmqpLibReader
  */
-class AmqpLibReaderTest extends \PHPUnit_Framework_TestCase
+class AmqpLibReaderTest extends TestCase
 {
     private $testQueueName = 'foo';
 

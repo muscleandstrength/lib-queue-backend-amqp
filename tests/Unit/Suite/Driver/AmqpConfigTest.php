@@ -6,11 +6,12 @@ namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver;
 
 use LizardsAndPumpkins\Messaging\Queue\Amqp\AmqpConfig as AmqpConfigInterface;
 use LizardsAndPumpkins\Util\Config\ConfigReader;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpConfig
  */
-class AmqpConfigTest extends \PHPUnit_Framework_TestCase
+class AmqpConfigTest extends TestCase
 {
     /**
      * @var AmqpConfig

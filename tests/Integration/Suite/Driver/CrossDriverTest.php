@@ -8,8 +8,9 @@ use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpExt\AmqpExtFactory;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib\AmqpLibFactory;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\IntegrationTestFactory;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\IntegrationTestMasterFactory;
+use PHPUnit\Framework\TestCase;
 
-class CrossDriverTest extends \PHPUnit_Framework_TestCase
+class CrossDriverTest extends TestCase
 {
     private $exchangeName = 'test';
 

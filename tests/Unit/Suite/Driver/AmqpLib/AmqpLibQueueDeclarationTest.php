@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib;
 
 use PhpAmqpLib\Channel\AMQPChannel;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib\AmqpLibQueueDeclaration
  */
-class AmqpLibQueueDeclarationTest extends \PHPUnit_Framework_TestCase
+class AmqpLibQueueDeclarationTest extends TestCase
 {
     public function testDeclaresQueueOnChannelAndReturnsTheMessageCount()
     {

@@ -10,11 +10,12 @@ use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\DriverFactoryLocator;
 use LizardsAndPumpkins\Util\Factory\Factory;
 use LizardsAndPumpkins\Util\Factory\FactoryTrait;
 use LizardsAndPumpkins\Util\Factory\FactoryWithCallback;
+use LizardsAndPumpkins\Util\Factory\FactoryWithCallbackTrait;
 use LizardsAndPumpkins\Util\Factory\MasterFactory;
 
-class AmqpFactory implements Factory, MessageQueueFactory, FactoryWithCallback
+class AmqpFactory implements MessageQueueFactory, FactoryWithCallback
 {
-    use FactoryTrait;
+    use FactoryWithCallbackTrait;
 
     public function factoryRegistrationCallback(MasterFactory $masterFactory)
     {

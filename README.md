@@ -1,3 +1,5 @@
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lizards-and-pumpkins/lib-queue-backend-amqp/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lizards-and-pumpkins/lib-queue-backend-amqp/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/lizards-and-pumpkins/lib-queue-backend-amqp/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/lizards-and-pumpkins/lib-queue-backend-amqp/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/lizards-and-pumpkins/lib-queue-backend-amqp/badges/build.png?b=master)](https://scrutinizer-ci.com/g/lizards-and-pumpkins/lib-queue-backend-amqp/build-status/master)
+
 # Lizards & Pumpkins AMQP Queue Library
 
 ## Setup Steps

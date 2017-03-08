@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp;
 
 use LizardsAndPumpkins\Messaging\MessageQueueFactory;
 use LizardsAndPumpkins\Messaging\Queue;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\DriverFactoryLocator;
-use LizardsAndPumpkins\Util\Factory\Factory;
-use LizardsAndPumpkins\Util\Factory\FactoryTrait;
 use LizardsAndPumpkins\Util\Factory\FactoryWithCallback;
 use LizardsAndPumpkins\Util\Factory\FactoryWithCallbackTrait;
 use LizardsAndPumpkins\Util\Factory\MasterFactory;

@@ -6,7 +6,6 @@ namespace LizardsAndPumpkins\Messaging\Queue\Amqp;
 
 use LizardsAndPumpkins\Messaging\MessageQueueFactory;
 use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpDriverFactory;
-use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\DriverFactoryLocator;
 use LizardsAndPumpkins\Util\Factory\CatalogMasterFactory;
 use LizardsAndPumpkins\Util\Factory\Factory;
 use LizardsAndPumpkins\Util\Factory\FactoryWithCallback;
@@ -15,7 +14,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \LizardsAndPumpkins\Messaging\Queue\Amqp\AmqpFactory
- * @uses   \LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\DriverFactoryLocator
  */
 class AmqpFactoryTest extends TestCase
 {
@@ -45,11 +43,6 @@ class AmqpFactoryTest extends TestCase
     public function testImplementsMessageQueueFactoryInterface()
     {
         $this->assertInstanceOf(MessageQueueFactory::class, $this->amqpFactory);
-    }
-
-    public function testReturnsDriverLocatorInstance()
-    {
-        $this->assertInstanceOf(DriverFactoryLocator::class, $this->amqpFactory->createDriverFactoryLocator());
     }
 
     public function testRegistersDriverFactoryOnMasterFactory()

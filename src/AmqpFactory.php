@@ -6,7 +6,7 @@ namespace LizardsAndPumpkins\Messaging\Queue\Amqp;
 
 use LizardsAndPumpkins\Messaging\MessageQueueFactory;
 use LizardsAndPumpkins\Messaging\Queue;
-use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\DriverFactoryLocator;
+use LizardsAndPumpkins\Messaging\Queue\Amqp\Driver\AmqpLib\AmqpLibFactory;
 use LizardsAndPumpkins\Util\Factory\FactoryWithCallback;
 use LizardsAndPumpkins\Util\Factory\FactoryWithCallbackTrait;
 use LizardsAndPumpkins\Util\Factory\MasterFactory;
@@ -17,12 +17,7 @@ class AmqpFactory implements MessageQueueFactory, FactoryWithCallback
 
     public function factoryRegistrationCallback(MasterFactory $masterFactory)
     {
-        $masterFactory->register($this->createDriverFactoryLocator()->getDriverFactory());
-    }
-
-    public function createDriverFactoryLocator() : DriverFactoryLocator
-    {
-        return new DriverFactoryLocator();
+        $masterFactory->register(new AmqpLibFactory());
     }
 
     public function createAmqpQueue(string $name) : AmqpQueue

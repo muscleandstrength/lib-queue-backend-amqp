@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace LizardsAndPumpkins\Messaging\Queue\Amqp\Driver;
 
-use LizardsAndPumpkins\Messaging\Queue;
-
 interface AmqpReader
 {
     const CONSUMER_CONTINUE = null;

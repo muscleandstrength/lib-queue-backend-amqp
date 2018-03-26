@@ -80,7 +80,9 @@ abstract class AmqpDriverTestIntegration extends TestCase
     public static function tearDownAfterClass()
     {
         if (! self::$skipTearDownAfterClass) {
-            $reader = static::createMasterFactoryWithAmqpDriver()->createAmqpReader(static::getQueueName());
+            /** @var MasterFactory|AmqpDriverFactory $masterFactoryWithAmqpDriver */
+            $masterFactoryWithAmqpDriver = static::createMasterFactoryWithAmqpDriver();
+            $reader = $masterFactoryWithAmqpDriver->createAmqpReader(static::getQueueName());
             $reader->deleteQueue();
         }
     }
@@ -183,11 +185,13 @@ abstract class AmqpDriverTestIntegration extends TestCase
 
     public function testCanReadMessagesWrittenViaAnotherConnection()
     {
+        /** @var MasterFactory|AmqpDriverFactory $masterFactoryWriteConnection */
         $masterFactoryWriteConnection = static::createMasterFactoryWithAmqpDriver();
         $writer = $masterFactoryWriteConnection->createAmqpWriter(static::getQueueName());
         $writer->addMessage('foo');
         $this->closeConnection($masterFactoryWriteConnection);
 
+        /** @var MasterFactory|AmqpDriverFactory $masterFactoryReadConnection */
         $masterFactoryReadConnection = static::createMasterFactoryWithAmqpDriver();
         $reader = $masterFactoryReadConnection->createAmqpReader(static::getQueueName());
         $this->assertNextConsumedMessageSame('foo', $reader);
